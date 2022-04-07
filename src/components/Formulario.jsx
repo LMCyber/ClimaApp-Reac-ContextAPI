@@ -3,7 +3,7 @@ import useClima from '../hooks/useClima'
 
 export const Formulario = () => {
   const [alerta, setAlerta] = useState('')
-  const { busqueda, datosBusqueda } = useClima()
+  const { busqueda, datosBusqueda, consultarClima } = useClima()
 
   const { ciudad, pais } = busqueda
 
@@ -12,7 +12,10 @@ export const Formulario = () => {
 
     if (Object.values(busqueda).includes('')) {
       setAlerta('Todos los campos son obligatorios')
+      return
     }
+
+    consultarClima(busqueda)
   }
   return (
     <div className='contenedor'>
