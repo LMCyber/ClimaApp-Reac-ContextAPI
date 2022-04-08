@@ -10,6 +10,8 @@ const ClimaProvider = ({ children }) => {
   })
 
   const [resultado, setResultado] = useState({})
+  const [cargando, setCargando] = useState(false)
+  const [noResultado, setNoResultado] = useState('')
 
   const datosBusqueda = (e) => {
     setBusqueda({
@@ -19,6 +21,8 @@ const ClimaProvider = ({ children }) => {
   }
 
   const consultarClima = async (datos) => {
+    setCargando(true)
+    setNoResultado(false)
     try {
       const { ciudad, pais } = datos
 
@@ -36,12 +40,15 @@ const ClimaProvider = ({ children }) => {
 
       setResultado(clima)
     } catch (error) {
-      console.log(error)
+      setResultado({})
+      setNoResultado('No hay resultados.')
+    } finally {
+      setCargando(false)
     }
   }
 
   return (
-    <ClimaContext.Provider value={{ busqueda, datosBusqueda, consultarClima, resultado }}>
+    <ClimaContext.Provider value={{ busqueda, datosBusqueda, consultarClima, resultado, cargando, noResultado }}>
       {children}
     </ClimaContext.Provider>
   )
